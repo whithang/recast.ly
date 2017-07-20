@@ -3,18 +3,34 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       videos: props.videos,
-      video: props.videos[0]
+      video: props.videos[0],
+      searchText:'' 
     };
   }
 
   onVideoClick(video) {
-    console.log("clicked", video);
     this.setState({
       video: video
     });
+  }
+
+  onSearchClick(text) {
+    this.setState({
+      searchText: text
+    });
+    this.executeYouTubeSearch(text);
+  }
+
+  executeYouTubeSearch(text) {
+    searchYouTube(text, function(data) {
+      this.setState({
+        videos: data,
+        video: data[0]
+      });
+    });
+    this.render();
   }
 
   render() {
@@ -23,7 +39,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <div><h5><Search mySearch = {this.onSearchClick.bind(this)}/></h5></div>
           </div>
         </nav>
         <div className="row">
