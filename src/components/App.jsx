@@ -22,13 +22,15 @@ class App extends React.Component {
     });
     this.executeYouTubeSearch(text);
   }
-
+  
   executeYouTubeSearch(text) {
-    searchYouTube(text, function(data) {
-      this.setState({
-        videos: data,
-        video: data[0]
-      });
+    searchYouTube({ max: 5, query: text, key: YOUTUBE_API_KEY}, this.updateVideos.bind(this));
+  }
+
+  updateVideos(videos) {
+    this.setState({
+      videos: videos,
+      video: videos[0]
     });
     this.render();
   }
