@@ -2,12 +2,15 @@ class App extends React.Component {
   
   constructor(props) {
     super(props);
-
     this.state = {
-      videos: props.videos,
-      video: props.videos[0],
+      videos: window.exampleVideoData,
+      video: window.exampleVideoData[0],
       searchText:'' 
     };
+  }
+  
+  componentDidMount() {   
+    this.executeYouTubeSearch('cats');
   }
 
   onVideoClick(video) {
@@ -24,7 +27,7 @@ class App extends React.Component {
   }
   
   executeYouTubeSearch(text) {
-    searchYouTube({ max: 5, query: text, key: YOUTUBE_API_KEY}, this.updateVideos.bind(this));
+    this.props.searchYouTube({ max: 5, query: text, key: YOUTUBE_API_KEY}, this.updateVideos.bind(this));
   }
 
   updateVideos(videos) {
@@ -32,7 +35,7 @@ class App extends React.Component {
       videos: videos,
       video: videos[0]
     });
-    this.render();
+    // this.render();
   }
 
   render() {
@@ -41,7 +44,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><Search mySearch = {this.onSearchClick.bind(this)}/></h5></div>
+            <div><h5><Search myLiveSearch = {this.executeYouTubeSearch.bind(this)} mySearch = {this.onSearchClick.bind(this)}/></h5></div>
           </div>
         </nav>
         <div className="row">
